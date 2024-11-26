@@ -1,6 +1,6 @@
-# Proyecto Django de Vista por Clases
+# Proyecto Django de Vista por Clases y Funciones
 
-Este proyecto proporciona una guía paso a paso para crear una aplicación Django utilizando **De Vista por Clases** para el diseño de interfaces.
+Este proyecto proporciona una guía paso a paso para crear una aplicación Django utilizando **De Vista por Clases y Funciones** para el diseño de interfaces.
 
 ---
 
