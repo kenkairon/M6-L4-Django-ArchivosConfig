@@ -350,7 +350,7 @@ Este proyecto proporciona una guía paso a paso para crear una aplicación Djang
 
         <div>
             <h2>Example Image</h2>
-            <!--<img src="{% static 'images/django.png' %}" alt="Logotipo de Django" style="width: 200px; height: auto;">-->
+            <img src="{% static 'images/django.png' %}" alt="Logotipo de Django" style="width: 200px; height: auto;">
         </div>
     {% endblock %}
 
@@ -378,3 +378,199 @@ Este proyecto proporciona una guía paso a paso para crear una aplicación Djang
     git commit -m "extendiendo a base.html"
     git branch -m extends
     git push origin extends
+
+30. Cambiamos el templates/base.html
+    ```bash
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Una aplicación de Django con estructura base.">
+        <link rel="icon" href="{% static 'images/favicon.ico' %}">
+        <title>{% block title %}My Project{% endblock %}</title>
+
+        
+        <!-- Estilos principales -->
+        <!--<link rel="stylesheet" href="{% static 'css/header.css' %}">-->
+        <!-- <link rel="stylesheet" href="{% static 'css/footer.css' %}"-->
+        <!--<link rel="stylesheet" href="{% static 'css/item_list.css' %}"> -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+        <!-- JavaScript principal -->
+        <script src="{% static 'js/main.js' %}" defer></script>
+    </head>
+
+    <body class="light-mode">
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+    </body>
+
+    </html>
+
+31. en la carpeta principal lunes agregamos static lunes/static
+32. en el static vamos a crear la carpeta images, css y js
+33. en static/css/styles.css creamos el css correspondiente
+    ```bash
+    /* static/css/style.css */
+    body.light-mode {
+        background-color: #f4f4f9;
+        color: #333;
+    }
+
+    body.dark-mode {
+        background-color: #333;
+        color: #f4f4f9;
+    }
+
+    button {
+        margin: 10px;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+    }
+
+34. en static/js/main.css creamos el js correspondiente
+    ```bash
+    // static/js/main.js
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.getElementById("theme-toggle");
+        const body = document.body;
+
+        // Cargar tema guardado en localStorage
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            body.className = savedTheme;
+        }
+
+        toggleButton.addEventListener("click", function () {
+            // Alternar entre los modos claro y oscuro
+            if (body.classList.contains("dark-mode")) {
+                body.classList.remove("dark-mode");
+                body.classList.add("light-mode");
+                localStorage.setItem("theme", "light-mode");
+            } else {
+                body.classList.remove("light-mode");
+                body.classList.add("dark-mode");
+                localStorage.setItem("theme", "dark-mode");
+            }
+        });
+    });
+
+35. en el static/images vamos agregar la images/django.png
+
+36. en el archivo templates/applunes/item_list.html le sacamos el comentario  <!--{% load static %}-->
+
+    ```bash
+    {% extends 'base.html' %}
+    {% load static %}
+
+    {% block title %}Item List{% endblock %}
+
+    {% block content %}
+        <h1>Items</h1>
+        <button id="theme-toggle">Toggle Theme</button>
+
+        {% if items %}
+            <ul class="item-list" role="list">
+                {% for item in items %}
+                    <li role="listitem">
+                        <strong>{{ item.name }}</strong> - ${{ item.price }}
+                        <p>{{ item.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Navegación de Paginación -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if items.has_previous %}
+                        <a href="?page=1">Primera</a>
+                        <a href="?page={{ items.previous_page_number }}">Anterior</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Página {{ items.number }} de {{ items.paginator.num_pages }}
+                    </span>
+
+                    {% if items.has_next %}
+                        <a href="?page={{ items.next_page_number }}">Siguiente</a>
+                        <a href="?page={{ items.paginator.num_pages }}">Última</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% else %}
+            <p>No hay elementos disponibles.</p>
+        {% endif %}
+
+        <div>
+            <h2>Example Image</h2>
+            <img src="{% static 'images/django.png' %}" alt="Logotipo de Django" style="width: 200px; height: auto;">
+        </div>
+    {% endblock %}
+
+37. En el templates/base.html comentamos <!--<link rel="icon" href="{% static 'images/favicon.ico' %}">--> y colocamos {% load static %}
+    ```bash
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Una aplicación de Django con estructura base.">
+        <!--<link rel="icon" href="{% static 'images/favicon.ico' %}">-->
+        <title>{% block title %}My Project{% endblock %}</title>
+
+        <!-- Estilos principales -->
+        <!--<link rel="stylesheet" href="{% static 'css/header.css' %}">-->
+        <!-- <link rel="stylesheet" href="{% static 'css/footer.css' %}"-->
+        <!--<link rel="stylesheet" href="{% static 'css/item_list.css' %}"> -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+        <!-- JavaScript principal -->
+        <script src="{% static 'js/main.js' %}" defer></script>
+    </head>
+
+    <body class="light-mode">
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+    </body>
+
+    </html>
+
+38. Reiniciamos el Servidor para Ver los cambios
+
+    ```bash
+    python manage.py runserver
+
+39. No me esta encontrando los archivos imagen,css,js en lunes/setting.js vamos agregar esto
+```bash
+    # Internationalization
+    # https://docs.djangoproject.com/en/5.1/topics/i18n/
+
+    LANGUAGE_CODE = 'es-es'
+    TIME_ZONE = 'America/Santiago'
+
+    USE_I18N = True
+    USE_TZ = True
+
+
+
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+    STATIC_URL = 'static/'
+
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
