@@ -1,0 +1,33 @@
+python manage.py shell
+
+from applunes.models import Item
+
+# Datos de ejemplo
+from applunes.models import Item
+
+# Datos de ejemplo
+items_data = [
+    {"name": "Smartphone", "description": "Teléfono inteligente con pantalla AMOLED y 128GB de almacenamiento.", "price": 799.99},
+    {"name": "Tablet", "description": "Tablet de 10 pulgadas ideal para leer y trabajar en movimiento.", "price": 399.99},
+    {"name": "Smartwatch", "description": "Reloj inteligente con GPS y monitoreo de salud.", "price": 199.99},
+    {"name": "Auriculares Bluetooth", "description": "Auriculares inalámbricos con batería de larga duración.", "price": 49.99},
+    {"name": "Cámara DSLR", "description": "Cámara digital de alta calidad con lentes intercambiables.", "price": 1200.00},
+    {"name": "Disco Duro Externo", "description": "Almacenamiento portátil de 1TB con USB 3.0.", "price": 59.99},
+    {"name": "Impresora", "description": "Impresora multifuncional con conexión WiFi.", "price": 89.99},
+    {"name": "Silla Gamer", "description": "Silla ergonómica diseñada para largas sesiones de juego.", "price": 159.99},
+    {"name": "Teclado Mecánico", "description": "Teclado mecánico con retroiluminación personalizable.", "price": 109.99},
+    {"name": "Monitor Curvo", "description": "Monitor curvo Full HD de 24 pulgadas.", "price": 249.99},
+    {"name": "Router WiFi", "description": "Router de alta velocidad con doble banda.", "price": 69.99},
+    {"name": "Proyector", "description": "Proyector portátil para presentaciones y entretenimiento.", "price": 349.99},
+    {"name": "Micrófono USB", "description": "Micrófono profesional para grabación y streaming.", "price": 89.99},
+    {"name": "Altavoz Bluetooth", "description": "Altavoz portátil resistente al agua.", "price": 39.99},
+    {"name": "Webcam HD", "description": "Cámara web con resolución HD 1080p y micrófono integrado.", "price": 49.99},
+]
+
+# Carga de datos en la base de datos
+for item_data in items_data:
+    item, created = Item.objects.get_or_create(**item_data)
+    if created:
+        print(f"Item creado: {item.name}")
+    else:
+        print(f"Item ya existente: {item.name}")
