@@ -255,5 +255,126 @@ Este proyecto proporciona una guía paso a paso para crear una aplicación Djang
     git commit -m "Agregamos vistas por clases"
     git push origin vistaporclases
 
+23. Cambiamos la applunes\views , Con el Objetivo de Trabajar con funciones en este proyecto
+      ```bash
+    from typing import Any
+    from django.http import HttpRequest, HttpResponse
+    from django.shortcuts import render
+    from django.core.paginator import Paginator
+    from django.db import DatabaseError
+    from .models import Item
 
+    # Create your views here.
 
+    def item_list(request: HttpRequest) -> HttpResponse:
+        try:
+            items = Item.objects.all()
+        except DatabaseError:
+            items = []
+
+        paginator = Paginator(items, 10)  # 10 ítems por página
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'applunes/item_list.html', {'items': page_obj})
+
+24. Cambiamos el templates\applunes\item_list.html
+25. en carpeta lunes(principal) creamos un templates\base.html
+    ```bash
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        {% block content %}
+        {% endblock%}
+
+    </body>
+    </html>
+26. Cambiamos la vista por clase por la lista por funciones applunes\views.py
+    ```bash
+    from django.urls import path
+    from . import views
+
+    app_name = 'applunes'
+
+    urlpatterns = [
+        path('', views.item_list, name='item_list'),
+    ]
+
+27. Cambiamos el templates\applunes\item_list.html
+    ```bash
+    {% extends 'base.html' %}
+    <!--{% load static %}-->
+
+    {% block title %}Item List{% endblock %}
+
+    {% block content %}
+        <h1>Items</h1>
+        <button id="theme-toggle">Toggle Theme</button>
+
+        {% if items %}
+            <ul class="item-list" role="list">
+                {% for item in items %}
+                    <li role="listitem">
+                        <strong>{{ item.name }}</strong> - ${{ item.price }}
+                        <p>{{ item.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Navegación de Paginación -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if items.has_previous %}
+                        <a href="?page=1">Primera</a>
+                        <a href="?page={{ items.previous_page_number }}">Anterior</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Página {{ items.number }} de {{ items.paginator.num_pages }}
+                    </span>
+
+                    {% if items.has_next %}
+                        <a href="?page={{ items.next_page_number }}">Siguiente</a>
+                        <a href="?page={{ items.paginator.num_pages }}">Última</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% else %}
+            <p>No hay elementos disponibles.</p>
+        {% endif %}
+
+        <div>
+            <h2>Example Image</h2>
+            <!--<img src="{% static 'images/django.png' %}" alt="Logotipo de Django" style="width: 200px; height: auto;">-->
+        </div>
+    {% endblock %}
+
+28. Vamos al archivo de configuración lunes\settings.py , Agregamos  'DIRS': [BASE_DIR,'templates'], para que nos lea los templates
+     ```bash
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [BASE_DIR,'templates'],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth',
+                    'django.contrib.messages.context_processors.messages',
+                ],
+            },
+        },
+    ]
+
+29. Agregamos los cambios a una rama llamada extends
+    ```bash
+    git add .
+    git commit -m "extendiendo a base.html"
+    git branch -m extends
+    git push origin extends

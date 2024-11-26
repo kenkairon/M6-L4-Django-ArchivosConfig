@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+<!--{% load static %}-->
+
+{% block title %}Item List{% endblock %}
+
+{% block content %}
+<h1>Items</h1>
+<button id="theme-toggle">Toggle Theme</button>
+
+{% if items %}
+<ul class="item-list" role="list">
+    {% for item in items %}
+    <li role="listitem">
+        <strong>{{ item.name }}</strong> - ${{ item.price }}
+        <p>{{ item.description }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- Navegación de Paginación -->
+<div class="pagination">
+    <span class="step-links">
+        {% if items.has_previous %}
+        <a href="?page=1">Primera</a>
+        <a href="?page={{ items.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ items.number }} de {{ items.paginator.num_pages }}
+        </span>
+
+        {% if items.has_next %}
+        <a href="?page={{ items.next_page_number }}">Siguiente</a>
+        <a href="?page={{ items.paginator.num_pages }}">Última</a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+<p>No hay elementos disponibles.</p>
+{% endif %}
+
+<div>
+    <h2>Example Image</h2>
+    <!--<img src="{% static 'images/django.png' %}" alt="Logotipo de Django" style="width: 200px; height: auto;">-->
+</div>
+{% endblock %}
