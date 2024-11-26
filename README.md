@@ -13,9 +13,7 @@ Este proyecto proporciona una guía paso a paso para crear una aplicación Djang
   - [Configuración Inicial](#configuración-inicial)
   - [Configuración del Proyecto](#configuración-del-proyecto)
   - [Creación de Vistas y Modelos](#creación-de-vistas-y-modelos)
-  - [Integración de Bootstrap 5 por CDN](#integración-de-bootstrap-5-por-CDN)
-  - [Creación del SuperUsuario Y Configuraciones](#Creación-del-SuperUsuario-Y-Configuraciones)
-
+ 
 
 ---
 
@@ -134,7 +132,7 @@ Este proyecto proporciona una guía paso a paso para crear una aplicación Djang
 15. en applunes creamos una Carpeta llamada templates creamos un archivo llamado index.html app1\templates\item_list.html
 
      ```bash
-   <!DOCTYPE html>
+    <!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -180,9 +178,9 @@ Este proyecto proporciona una guía paso a paso para crear una aplicación Djang
         <div>
             <h2>Example Image</h2>
         </div>
-</body>
+    </body>
 
-</html>
+    </html>
 
 16. Crear el archivo urls.py en applunes -> applunes/urls.py
 
